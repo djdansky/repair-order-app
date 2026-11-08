@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repair List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Repair Orders</h1>
+    <div id="repairs-list"></div>
+    <a href="index.html" class="btn">Back to QR Code</a>
+  </div>
+  <script>
+    async function loadRepairs() {
+      const res = await fetch('/api/repairs');
+      const repairs = await res.json();
+      const list = document.getElementById('repairs-list');
+      if (repairs.length === 0) {
+        list.innerHTML = '<p>No repair orders yet.</p>';
+        return;
+      }
+      list.innerHTML = repairs.map(r => `
+        <div class="repair-card">
+          <h3>${r.location}</h3>
+          <p><strong>Date:</strong> ${r.date}</p>
+          <p><strong>Problem:</strong> ${r.problem}</p>
+          <p><strong>Submitted:</strong> ${new Date(r.submittedAt).toLocaleString()}</p>
+          ${r.pictures.length ? '<div class="pics">' + r.pictures.map(p => `<img src="${p}" alt="pic" style="max-width:150px; margin:5px;">`).join('') + '</div>' : ''}
+        </div>
+      `).join('');
+    }
+    loadRepairs();
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+input, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+textarea {
+  resize: vertical;
+}
+.btn {
+  display: inline-block;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  margin: 10px 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+.btn:hover {
+  background: #2980b9;
+}
+.btn.secondary {
+  background: #95a5a6;
+}
+.preview {
+  margin-top: 10px;
+}
+.repair-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: #fafafa;
+}
+.success {
+  color: green;
+  font-weight: bold;
+  margin-top: 15px;
+}
+.error {
+  color: red;
+  font-weight: bold;
+  margin-top: 15px;
+}
+#qr-container {
+  text-align: center;
+  margin: 20px 0;
+}
+@media (max-width: 600px) {
+  .container { padding: 15px; }
+  .btn { display: block; margin: 10px 0; }
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Repair Order</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Repair Order Form</h1>
+    <form id="repair-form" enctype="multipart/form-data">
+      <label for="problem">Problem Description *</label>
+      <textarea id="problem" name="problem" required rows="4" placeholder="Describe the issue..."></textarea>
+
+      <label for="date">Date *</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="location">Location *</label>
+      <input type="text" id="location" name="location" required placeholder="e.g. Building A, Room 101">
+
+      <label for="pictures">Supporting Pictures</label>
+      <input type="file" id="pictures" name="pictures" multiple accept="image/*">
+      <div id="preview" class="preview"></div>
+
+      <button type="submit" class="btn">Submit Repair Order</button>
+    </form>
+    <div id="message"></div>
+    <a href="index.html">Back to QR Code</a>
+  </div>
+  <script>
+    const form = document.getElementById('repair-form');
+    const preview = document.getElementById('preview');
+    const picturesInput = document.getElementById('pictures');
+    const message = document.getElementById('message');
+
+    // Set default date to today
+    document.getElementById('date').valueAsDate = new Date();
+
+    picturesInput.addEventListener('change', () => {
+      preview.innerHTML = '';
+      Array.from(picturesInput.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.maxWidth = '100px';
+          img.style.margin = '5px';
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      message.textContent = 'Submitting...';
+      message.className = '';
+
+      try {
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          message.textContent = 'Repair order submitted successfully! ID: ' + data.id;
+          message.className = 'success';
+          form.reset();
+          preview.innerHTML = '';
+          document.getElementById('date').valueAsDate = new Date();
+        } else {
+          throw new Error(data.error || 'Submission failed');
+        }
+      } catch (err) {
+        message.textContent = 'Error: ' + err.message;
+        message.className = 'error';
+      }
+    });
+  </script>
+</body>
+</html>

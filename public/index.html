@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repair Order System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Repair Order QR Code</h1>
+    <p>Scan this QR code to open the repair reporting form.</p>
+    <div id="qr-container">
+      <img id="qr-image" alt="QR Code" style="max-width: 300px;">
+      <p id="form-url"></p>
+    </div>
+    <a href="list.html" class="btn">View Repair List</a>
+    <a href="form.html" class="btn secondary">Open Form Directly</a>
+  </div>
+  <script>
+    fetch('/api/qr')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('qr-image').src = data.qr;
+        document.getElementById('form-url').textContent = data.url;
+      })
+      .catch(err => console.error(err));
+  </script>
+</body>
+</html>
